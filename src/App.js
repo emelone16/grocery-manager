@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import Recipe from './Components/Recipe';
+import RecipeList from './Components/RecipeList';
+import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 
 class App extends Component {
   render() {
     return (
-      <Recipe />
+      <RecipeList />
     );
   }
 }

@@ -1,54 +1,51 @@
-import React, { Component } from 'react';
-
-class Recipe extends Component {
-
-    constructor() {
-        super();
-
-        this.state = {
-            title: "Spaghetti",
-            image: "https://www.cookingclassy.com/wp-content/uploads/2018/01/instant-pot-spaghetti-12-500x500.jpg"
-        }
-    }
-
-    render() {
-        return (
-            <div className="card m-4" style={styles.card}>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-8">
-                            <div style={styles.title}>{this.state.title}</div>
-                        </div>
-                        <div className="col-4" style={styles.imageColumn}>
-                            <img className="card-img" src={this.state.image} style={styles.image}/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
+import React from 'react';
 
 // Styles
 
 const card = {
-    width: 400
+    width: 400,
+    height: 125,
+    overflow: "hidden"
 }
 
-const image =  {
-    width: "100%"
+const image = {
+    height: "110%"
 };
 
 const title = {
     textAlign: "center",
     width: "100%",
-    height: 25
+    backgroundColor: "#4286f4",
+    color: "white",
+    fontSize: "1.5em"
 }
 
-const imageColumn = {
-    padding: 0
+const column = {
+    padding: 0,
+    width: 100
 }
 
-const styles = { image, card, title, imageColumn };
+const styles = {
+    image,
+    card,
+    title,
+    column
+};
+
+const Recipe = ({recipe}) => {
+    return (
+        <div className="container card m-4" style={styles.card}>
+            <div className="row">
+                <div className="col-8" style={styles.column}>
+                    <div style={styles.title}>{recipe.title}</div>
+                    <div>{recipe.blurb}</div>
+                </div>
+                <div className="col-4 text-center" style={styles.column}>
+                    <img src={recipe.image} style={styles.image}/>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 export default Recipe;
