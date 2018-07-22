@@ -15,49 +15,22 @@ const styles = { container };
 
 class RecipeList extends Component {
 
-    state = {
-        recipes: [
-            {
-                id: 0,
-                title: "Spaghetti",
-                blurb: "Italian and delicious",
-                image: "https://www.cookingclassy.com/wp-content/uploads/2018/01/instant-pot-spaghetti-12-500x500.jpg"
-            }, {
-                id: 1,
-                title: "Italian Sub",
-                blurb: "Also Italian but in sandwich form",
-                image: "https://www.landolakes.com/RecipeManagementSystem/media/Recipe-Media-Files/Recipes/Retail/x17/18742-italian-sub-600x600.jpg?ext=.jpg"
-            }, {
-                id: 2,
-                title: "Italian Sub",
-                blurb: "Also Italian but in sandwich form",
-                image: "https://www.landolakes.com/RecipeManagementSystem/media/Recipe-Media-Files/Recipes/Retail/x17/18742-italian-sub-600x600.jpg?ext=.jpg"
-            }, {
-                id: 3,
-                title: "Italian Sub",
-                blurb: "Also Italian but in sandwich form",
-                image: "https://www.landolakes.com/RecipeManagementSystem/media/Recipe-Media-Files/Recipes/Retail/x17/18742-italian-sub-600x600.jpg?ext=.jpg"
-            }, {
-                id: 4,
-                title: "Italian Sub",
-                blurb: "Also Italian but in sandwich form",
-                image: "https://www.landolakes.com/RecipeManagementSystem/media/Recipe-Media-Files/Recipes/Retail/x17/18742-italian-sub-600x600.jpg?ext=.jpg"
-            }, {
-                id: 5,
-                title: "Italian Sub",
-                blurb: "Also Italian but in sandwich form",
-                image: "https://www.landolakes.com/RecipeManagementSystem/media/Recipe-Media-Files/Recipes/Retail/x17/18742-italian-sub-600x600.jpg?ext=.jpg"
-            }, {
-                id: 6,
-                title: "Italian Sub",
-                blurb: "Also Italian but in sandwich form",
-                image: "https://www.landolakes.com/RecipeManagementSystem/media/Recipe-Media-Files/Recipes/Retail/x17/18742-italian-sub-600x600.jpg?ext=.jpg"
-            }
-        ]
-    };
+    constructor() {
+        super();
+
+        this.state = {
+            recipes: []
+        }
+    }
+
+    componentDidMount() {
+        fetch('http://localhost:4000/api/recipes')
+          .then(response => response.json())
+          .then(recipes => this.setState({ recipes }));
+      }
 
     createRecipes = () => {
-        return this.state.recipes.map(recipe => <Recipe id={recipe.id} recipe={recipe}/>)
+        return this.state.recipes.map(recipe => <Recipe key={recipe.id} recipe={recipe}/>)
     };
 
     render() {

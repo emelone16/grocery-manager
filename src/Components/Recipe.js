@@ -41,7 +41,7 @@ const Recipe = ({recipe}) => {
                     <div>{recipe.blurb}</div>
                 </div>
                 <div className="col-4 text-center" style={styles.column}>
-                    <img src={recipe.image} style={styles.image}/>
+                    <img src={recipe.image} alt={recipe.title} style={styles.image}/>
                 </div>
             </div>
         </div>
