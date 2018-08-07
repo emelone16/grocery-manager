@@ -5,7 +5,6 @@ import Recipe from './Recipe';
 
 const container = {
     height: "100vh",
-    width: 448,
     paddingTop: 24,
     backgroundColor: "#efefef",
     overflowY: "scroll"
@@ -34,8 +33,10 @@ class RecipeList extends Component {
     };
 
     render() {
+        const mergedStyles = {...styles.container, ...this.props.style}
+
         return (
-            <div style={styles.container}>{this.createRecipes()}</div>
+            <div style={mergedStyles}>{this.createRecipes()}</div>
             
         );
     }

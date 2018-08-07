@@ -3,13 +3,14 @@ import React from 'react';
 // Styles
 
 const card = {
-    width: 400,
+    width: "90%",
+    margin: "auto",
     height: 125,
     overflow: "hidden"
 }
 
 const image = {
-    height: "110%"
+    height: "125%"
 };
 
 const title = {
