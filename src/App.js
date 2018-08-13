@@ -20,11 +20,20 @@ const recipeList = {
 const styles = { container, mainArea, recipeList };
 
 class App extends Component {
+
+  state = { recipes: []}
+
+  componentDidMount() {
+    fetch('http://localhost:4000/api/recipes')
+      .then(response => response.json())
+      .then(recipes => this.setState({recipes}));
+  }
+
   render() {
     return (
       <div style={container}>
-        <MainArea style={styles.mainArea} />
-        <RecipeList style={styles.recipeList} />
+        <MainArea style={styles.mainArea} recipes={this.state.recipes} />
+        <RecipeList style={styles.recipeList} recipes={this.state.recipes} />
       </div>
     );
   }
