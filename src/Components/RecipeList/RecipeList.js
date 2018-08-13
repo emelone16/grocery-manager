@@ -22,14 +22,8 @@ class RecipeList extends Component {
         }
     }
 
-    componentDidMount() {
-        fetch('http://localhost:4000/api/recipes')
-          .then(response => response.json())
-          .then(recipes => this.setState({ recipes }));
-      }
-
     createRecipes = () => {
-        return this.state.recipes.map(recipe => <Recipe key={recipe.id} recipe={recipe}/>)
+        return this.props.recipes.map(recipe => <Recipe key={recipe.id} recipe={recipe}/>)
     };
 
     render() {
