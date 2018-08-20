@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Recipe from './Recipe';
+import { GroceryManagerConsumer } from '../../GroceryManager.context';
 
 // Styles
 
@@ -14,24 +15,19 @@ const styles = { container };
 
 class RecipeList extends Component {
 
-    constructor() {
-        super();
-
-        this.state = {
-            recipes: []
-        }
-    }
-
-    createRecipes = () => {
-        return this.props.recipes.map(recipe => <Recipe key={recipe.id} recipe={recipe}/>)
+    createRecipes = (recipes) => {
+        return recipes.map(recipe => <Recipe key={recipe.id} recipe={recipe}/>)
     };
 
     render() {
         const mergedStyles = {...styles.container, ...this.props.style}
 
         return (
-            <div style={mergedStyles}>{this.createRecipes()}</div>
-            
+            <GroceryManagerConsumer>
+                {({recipes}) => (
+                    <div style={mergedStyles}>{this.createRecipes(recipes)}</div>
+                )}
+            </GroceryManagerConsumer>
         );
     }
 }

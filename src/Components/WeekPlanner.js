@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Day from './Day';
+import { GroceryManagerConsumer } from '../GroceryManager.context';
 
 const container = {
     width: "100%",
@@ -38,15 +39,15 @@ class WeekPlanner extends Component {
         this.setState({ days });
     }
 
-    setupDefaultRecipes = () => {
+    setupDefaultRecipes = (recipes) => {
         this.setState({
             days: {
                 "Sunday": null,
-                "Monday": this.props.recipes[0],
-                "Tuesday": this.props.recipes[1],
-                "Wednesday": this.props.recipes[2],
-                "Thursday": this.props.recipes[3],
-                "Friday": this.props.recipes[4],
+                "Monday": recipes[0],
+                "Tuesday": recipes[1],
+                "Wednesday": recipes[2],
+                "Thursday": recipes[3],
+                "Friday": recipes[4],
                 "Saturday": null,
             }
         })
@@ -56,10 +57,14 @@ class WeekPlanner extends Component {
 
     render() {
         return (
-            <div style={styles.container}>
-                {this.renderDays()}
-                <input type="button" value="asdf" onClick={this.setupDefaultRecipes} />
-            </div>
+            <GroceryManagerConsumer>
+                {({recipes}) => (
+                    <div style={styles.container}>
+                        {this.renderDays()}
+                        <input type="button" value="asdf" onClick={() => this.setupDefaultRecipes(recipes)} />
+                    </div>
+                )}
+            </GroceryManagerConsumer>
         )
     }
 

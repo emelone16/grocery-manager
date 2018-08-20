@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { GroceryManagerConsumer } from '../GroceryManager.context';
 
 const container = {
     flexBasis: "10%",
