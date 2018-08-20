@@ -14,7 +14,7 @@ class MainArea extends Component {
 
         return (
             <div style={mergedStyles}>
-                <WeekPlanner recipes={this.props.recipes}/>
+                <WeekPlanner/>
             </div>
         );
     }

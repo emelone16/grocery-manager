@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MainArea from './Components/MainArea';
 import RecipeList from './Components/RecipeList/RecipeList';
+import { GroceryManagerProvider } from './GroceryManager.context';
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -21,22 +22,17 @@ const styles = { container, mainArea, recipeList };
 
 class App extends Component {
 
-  state = { recipes: []}
-
-  componentDidMount() {
-    fetch('http://localhost:4000/api/recipes')
-      .then(response => response.json())
-      .then(recipes => this.setState({recipes}));
-  }
-
   render() {
     return (
-      <div style={container}>
-        <MainArea style={styles.mainArea} recipes={this.state.recipes} />
-        <RecipeList style={styles.recipeList} recipes={this.state.recipes} />
-      </div>
+      <GroceryManagerProvider>
+        <div style={container}>
+          <MainArea style={styles.mainArea} />
+          <RecipeList style={styles.recipeList} />
+        </div>
+      </GroceryManagerProvider>
     );
   }
+  
 }
 
 export default App;
