@@ -15,23 +15,7 @@ const container = {
 const styles = { container };
 
 class WeekPlanner extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            days: {
-                "Sunday": null,
-                "Monday": null,
-                "Tuesday": null,
-                "Wednesday": null,
-                "Thursday": null,
-                "Friday": null,
-                "Saturday": null
-            }
-        }
-    }
-
+    
     changeRecipe = (day, recipe) => {
         const days = {...this.state.days};
         days[day] = recipe;
@@ -39,29 +23,14 @@ class WeekPlanner extends Component {
         this.setState({ days });
     }
 
-    setupDefaultRecipes = (recipes) => {
-        this.setState({
-            days: {
-                "Sunday": null,
-                "Monday": recipes[0],
-                "Tuesday": recipes[1],
-                "Wednesday": recipes[2],
-                "Thursday": recipes[3],
-                "Friday": recipes[4],
-                "Saturday": null,
-            }
-        })
-    }
-
-    renderDays = () => Object.keys(this.state.days).map((day) => <Day day={day} recipe={this.state.days[day]} handleChangeRecipe={this.changeRecipe}/>)
+    renderDays = (days, handleChangeRecipe) => Object.keys(days).map((day) => <Day day={day} recipe={days[day]} handleChangeRecipe={handleChangeRecipe}/>)
 
     render() {
         return (
             <GroceryManagerConsumer>
-                {({recipes}) => (
+                {({days, changeRecipeForDay}) => (
                     <div style={styles.container}>
-                        {this.renderDays()}
-                        <input type="button" value="asdf" onClick={() => this.setupDefaultRecipes(recipes)} />
+                        {this.renderDays(days, changeRecipeForDay)}
                     </div>
                 )}
             </GroceryManagerConsumer>

@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { GroceryManagerConsumer } from '../GroceryManager.context';
 
+// Constants
+const IMAGE_DIM = 70;
+
+// Styles
+
 const container = {
     flexBasis: "10%",
 };
 
 const imageHolder = {
-    width: 70,
-    height: 70,
+    width: IMAGE_DIM,
+    height: IMAGE_DIM,
     margin: "auto",
     backgroundColor: "brown",
     borderRadius: "100%",
@@ -38,8 +43,15 @@ class Day extends Component {
         this.setState({ imageHolderOverflow: "hidden", zIndex: 0 });
     }
 
-    handleChangeRecipe = (day, recipe) => {
-        this.props.handleChangeRecipe(day, recipe);
+    handleChangeRecipe = (event, recipes) => {
+        var recipe = recipes.filter(recipe => recipe.title === event.target.value)[0];
+
+        // Filter returns `undefined` rather than `null`. Need `null` for saving to JSON.
+        if(!recipe) {
+            recipe = null;
+        }
+
+        this.props.handleChangeRecipe(this.props.day, recipe);
         this.setState({ imageHolderOverflow: "hidden" });
     }
 
@@ -49,14 +61,13 @@ class Day extends Component {
         return (
             <div style={styles.container}>
                 <div style={newImageHolder}>
-                    {this.props.recipe && <InnerRecipeCard
+                    <InnerRecipeCard
                         handleOnMouseEnter={this.handleOnMouseEnter}
                         handleOnMouseLeave={this.handleOnMouseLeave}
                         handleChangeRecipe={this.handleChangeRecipe}
-                        day={this.props.day}
                         recipe={this.props.recipe}
                         zIndex={this.state.zIndex} 
-                    />}
+                    />
                 </div>
                 <div style={styles.text}>{this.props.day}</div>
             </div>
@@ -68,7 +79,7 @@ const InnerRecipeCard = ({ recipe, zIndex, day, handleOnMouseEnter, handleOnMous
     const paddingValue = 15;
 
     const holder = {
-        backgroundColor: "green",
+        backgroundColor: recipe ? "green" : "brown",
         width: 250,
         height: 200,
         position: "relative",
@@ -84,6 +95,7 @@ const InnerRecipeCard = ({ recipe, zIndex, day, handleOnMouseEnter, handleOnMous
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        marginBottom: 10,
     }
 
     const title = {
@@ -93,22 +105,43 @@ const InnerRecipeCard = ({ recipe, zIndex, day, handleOnMouseEnter, handleOnMous
     }
 
     const image = {
-        width: 70,
-        height: 70,
+        width: IMAGE_DIM,
+        height: IMAGE_DIM,
         borderRadius: "100%",
     }
 
+    var select = {
+        color: "#767676",
+        position: "relative",
+        marginTop: 5
+    }
+
+    if (!recipe) {
+        select = {...select, top: IMAGE_DIM}
+    }
+
     return (
-        <div onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave} style={holder}>
-            <div style={titleDiv}>
-                <img src={recipe.image} style={image}/>
-                <div style={title}>{recipe.title}</div>
-            </div>
-            <input 
-                onClick={() => handleChangeRecipe(day, null)}
-                type="button"
-                value="Change Recipe"/>
-        </div>
+        <GroceryManagerConsumer>
+            {({recipes}) => (
+                <div onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave} style={holder}>
+                    {recipe && <div style={titleDiv}>
+                        <img src={recipe.image} style={image}/>
+                        <div style={title}>{recipe.title}</div>
+                    </div>}
+                    
+                    <select style={select} onChange={(e) => handleChangeRecipe(e, recipes)}>
+                        <option selected style={select} value="Select a Recipe...">Select a Recipe...</option>
+                        {recipes.map((mappingRecipe) => (
+                            <option 
+                                selected={recipe && mappingRecipe.title === recipe.title}
+                                id={mappingRecipe.id}
+                                value={mappingRecipe.title}>
+                                    {mappingRecipe.title}
+                            </option>))}
+                    </select>
+                </div>
+            )}
+        </GroceryManagerConsumer>
     );
 }
 
