@@ -1,36 +1,17 @@
 import React, { Component } from 'react';
+import Day from './Day';
 
-const weekContainer = {
+const container = {
     width: "100%",
     margin: "auto",
     backgroundColor: "#6b3a31",
     display: "flex",
     justifyContent: "center",
     padding: 10,
+    paddingTop: 30,
 }
 
-const weekStyles = { container: weekContainer };
-
-const dayContainer = {
-    flexBasis: "10%",
-};
-
-const dayImage = {
-    width: 70,
-    height: 70,
-    margin: "auto",
-    backgroundColor: "brown",
-    borderRadius: "100%",
-}
-
-const dayText = {
-    width: "100%",
-    color: "white",
-    fontSize: 20,
-    textAlign: "center",
-}
-
-const dayStyles = { container: dayContainer, image: dayImage, text: dayText};
+const styles = { container };
 
 class WeekPlanner extends Component {
 
@@ -39,52 +20,49 @@ class WeekPlanner extends Component {
 
         this.state = {
             days: {
-                "Sunday": {},
-                "Monday": {},
-                "Tuesday": {},
-                "Wednesday": {},
-                "Thursday": {},
-                "Friday": {},
-                "Saturday": {}
+                "Sunday": null,
+                "Monday": null,
+                "Tuesday": null,
+                "Wednesday": null,
+                "Thursday": null,
+                "Friday": null,
+                "Saturday": null
             }
         }
+    }
+
+    changeRecipe = (day, recipe) => {
+        const days = {...this.state.days};
+        days[day] = recipe;
+
+        this.setState({ days });
     }
 
     setupDefaultRecipes = () => {
         this.setState({
             days: {
-                "Sunday": {},
+                "Sunday": null,
                 "Monday": this.props.recipes[0],
                 "Tuesday": this.props.recipes[1],
                 "Wednesday": this.props.recipes[2],
                 "Thursday": this.props.recipes[3],
                 "Friday": this.props.recipes[4],
-                "Saturday": {},
+                "Saturday": null,
             }
         })
     }
 
-    renderDays = () => Object.keys(this.state.days).map((day) => <Day day={day} image={this.state.days[day].image}/>)
+    renderDays = () => Object.keys(this.state.days).map((day) => <Day day={day} recipe={this.state.days[day]} handleChangeRecipe={this.changeRecipe}/>)
 
     render() {
         return (
-            <div onClick={this.setupDefaultRecipes} style={weekStyles.container}>
+            <div style={styles.container}>
                 {this.renderDays()}
+                <input type="button" value="asdf" onClick={this.setupDefaultRecipes} />
             </div>
         )
     }
 
 }
-
-const Day = ({day, image}) => {
-    return (
-        <div style={dayStyles.container}>
-            <div style={dayStyles.image}>
-                {image && <img src={image} style={dayStyles.image}/>}
-            </div>
-            <div style={dayStyles.text}>{day}</div>
-        </div>
-    )
-} 
 
 export default WeekPlanner;
