@@ -79,23 +79,24 @@ const InnerRecipeCard = ({ recipe, zIndex, day, handleOnMouseEnter, handleOnMous
     const paddingValue = 15;
 
     const holder = {
-        backgroundColor: recipe ? "green" : "brown",
-        width: 250,
-        height: 200,
+        backgroundColor: recipe ? "white" : "brown",
+        width: 300,
         position: "relative",
         zIndex: zIndex,
-        padding: paddingValue,
         top: -paddingValue,
         left: -paddingValue,
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
+        borderRadius: 3
     }
 
     const titleDiv = {
-        display: "flex",
-        flexDirection: "row",
+        backgroundColor: recipe ? '#4286f4': "brown",
+        display: 'inline',
         alignItems: "center",
-        marginBottom: 10,
+        padding: paddingValue,
+        borderTopLeftRadius: 3,
+        borderTopRightRadius: 3
     }
 
     const title = {
@@ -110,35 +111,53 @@ const InnerRecipeCard = ({ recipe, zIndex, day, handleOnMouseEnter, handleOnMous
         borderRadius: "100%",
     }
 
-    var select = {
-        color: "#767676",
-        position: "relative",
-        marginTop: 5
+    const plus = {
+        width: 70,
+        height: IMAGE_DIM,
+        fontSize: 40,
+        color: "white",
+        textAlign: "center",
+        display: "inline-block"
     }
 
-    if (!recipe) {
-        select = {...select, top: IMAGE_DIM}
+    var select = {
+        position: "relative",
+        marginLeft: 10,
+        width: 150,
+        fontSize: 22,
+        color: "white",
+        backgroundColor: recipe ? '#4286f4' : 'brown',
+        outline: "none",
+        border: "0px solid white",
+    }
+
+    const option = {
+        backgroundColor: "white",
+        color: "black"
     }
 
     return (
         <GroceryManagerConsumer>
             {({recipes}) => (
                 <div onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave} style={holder}>
-                    {recipe && <div style={titleDiv}>
-                        <img src={recipe.image} style={image}/>
-                        <div style={title}>{recipe.title}</div>
-                    </div>}
-                    
-                    <select style={select} onChange={(e) => handleChangeRecipe(e, recipes)}>
-                        <option selected style={select} value="Select a Recipe...">Select a Recipe...</option>
+                    <div style={titleDiv}>
+                        {recipe && <img src={recipe.image} style={image}/>}
+                        {!recipe && <div style={plus}>+</div>}
+
+                        <select style={select} onChange={(e) => handleChangeRecipe(e, recipes)}>
+                        <option selected style={{color: '#767676', backgroundColor: "white"}} value="Select a Recipe...">Select a Recipe...</option>
                         {recipes.map((mappingRecipe) => (
                             <option 
                                 selected={recipe && mappingRecipe.title === recipe.title}
                                 id={mappingRecipe.id}
-                                value={mappingRecipe.title}>
-                                    {mappingRecipe.title}
+                                value={mappingRecipe.title}
+                                style={option}
+                            >
+                                {mappingRecipe.title}
                             </option>))}
-                    </select>
+                        </select>
+                        {/* <div style={title}>{recipe.title}</div> */}
+                    </div>
                 </div>
             )}
         </GroceryManagerConsumer>
